@@ -1,0 +1,12 @@
+OpenSeadragon({
+    ...
+    tileSources: {
+        type: 'image',
+        url:  '/example-images/grand-canyon-landscape-overlooking.jpg'
+    }
+    ...
+});
+
+{% for image in collections.ghc %}
+  <hr>{{ image }}
+{% endfor %}
