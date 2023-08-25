@@ -3,7 +3,7 @@ pagination:
     data: collections.ghc
     size: 1
     alias: image
-permalink: "{{ image | slugify }}/"
+permalink: "{{ image.src | slugify }}/"
 ---
 
 <!DOCTYPE html>
@@ -18,7 +18,7 @@ permalink: "{{ image | slugify }}/"
     <script src="/assets/js/openseadragon.min.js"></script>
 </head>
 <body>
-
+<h1>{{ image.name }}</h1>
 <div id="example-inline-configuration-for-image"
          class="openseadragon">
         <script type="text/javascript">
@@ -27,13 +27,13 @@ permalink: "{{ image | slugify }}/"
                 prefixUrl:     "/assets/images/",
                 tileSources:   {
                     type: 'image',
-                    url:  '/{{ image }}'
+                    url:  '/{{ image.src }}'
                 }
             });
         </script>
         <noscript>
             <p>OpenSeadragon is not available unless JavaScript is enabled.</p>
-            <img src='{{ image }}'
+            <img src='{{ image.src }}'
                  height='600'/>
         </noscript>
 </div>
