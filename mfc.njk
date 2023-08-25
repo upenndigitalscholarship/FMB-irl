@@ -9,49 +9,51 @@ permalink: "{{ image | slugify }}/"
 ---
 <!DOCTYPE html>
 <html lang="es-co">
-<head>
-<title>{{ image }}</title>
-<meta charset="utf-8" />
-<link rel='stylesheet' 
+    <head>
+        <title>{{ image }}</title>
+        <meta charset="utf-8"/>
+        <link rel='stylesheet' 
           type='text/css'
           media='screen'
           href='/assets/css/style.css'/>
 
-<script src="/assets/js/openseadragon.min.js"></script>
-</head>
-<body>
+        <script src="/assets/js/openseadragon.min.js"></script>
+    </head>
+    <body>
 
-<div class="container">
-    <ul class="breadcrumb">
-        <li><a href="/{{ image | getMFCPrevious | slugify }}">Atras</a></li>
-        {% set parts = image.split('_') %}
-        {% for item in parts %}
-            <li>{{ item }}</li>
-        {% endfor %}
-        <li><a href="/{{ image | getMFCNext | slugify }}">Siguiente</a></li>
-</ul> 
-
-
-
-<div id="fmb-image"
+        <div class="container">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="/{{ image | getMFCPrevious | slugify }}">Atras</a>
+                </li>
+                {% set parts = image.split('_') %}
+                {% for item in parts %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+                <li>
+                    <a href="/{{ image | getMFCNext | slugify }}">Siguiente</a>
+                </li>
+            </ul>
+            <a href="/">Inicio</a>
+            <div id="fmb-image"
          class="openseadragon">
-        <script type="text/javascript">
-            OpenSeadragon({
-                id:            "fmb-image",
-                prefixUrl:     "/assets/images/",
-                tileSources:   {
-                    type: 'image',
-                    url:  '/{{ image }}'
-                }
-            });
-        </script>
-        <noscript>
-            <p>OpenSeadragon is not available unless JavaScript is enabled.</p>
-            <img src='{{ image }}'
+                <script type="text/javascript">
+                    OpenSeadragon({
+                        id: "fmb-image",
+                        prefixUrl: "/assets/images/",
+                        tileSources: {
+                            type: 'image',
+                            url: '/{{ image }}'
+                        }
+                    });
+                </script>
+                <noscript>
+                    <p>OpenSeadragon is not available unless JavaScript is enabled.</p>
+                    <img src='{{ image }}'
                  height='600'/>
-        </noscript>
-</div>
-</div>
+                </noscript>
+            </div>
+        </div>
 
-</body>
+    </body>
 </html>

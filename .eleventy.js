@@ -1,6 +1,6 @@
 // Import fast-glob package
 const fg = require('fast-glob');
-const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
+const { execSync } = require('child_process')
 
 // Run search for images in /gallery and /sponsors
 const ghcImages = fg.sync(['**/GHC/**', '!**/_site']);
@@ -8,11 +8,9 @@ const mfcImages = fg.sync(['**/MFC/**', '!**/_site']);
 
 //Create collections so you can access the data in your templates
 module.exports = function(eleventyConfig) {
-  eleventyConfig.addPlugin(eleventyNavigationPlugin);
   eleventyConfig.addPassthroughCopy("assets");
-  //eleventyConfig.addPassthroughCopy("GHC");
-
-  
+  //GHC
+  eleventyConfig.addPassthroughCopy("GHC");
   eleventyConfig.addCollection('ghc', function(collection) {
     return ghcImages;
   });
@@ -28,7 +26,12 @@ module.exports = function(eleventyConfig) {
     let index = ghcImages.indexOf(value);
     return ghcImages[index-1] ? ghcImages[index-1] : ghcImages[0];
   });
-
+  
+  //MFC
+  eleventyConfig.addPassthroughCopy("MFC");
+  eleventyConfig.addCollection('mfc', function(collection) {
+    return mfcImages;
+  });
   eleventyConfig.addNunjucksFilter("getMFCNext", function(value) {
     let index = mfcImages.indexOf(value);
     return mfcImages[index+1] ? mfcImages[index+1] : mfcImages[0];
@@ -37,9 +40,7 @@ module.exports = function(eleventyConfig) {
     let index = mfcImages.indexOf(value);
     return mfcImages[index-1] ? mfcImages[index-1] : mfcImages[0];
   });
-  
-  
-  eleventyConfig.addCollection('mfc', function(collection) {
-    return mfcImages;
-  });
+  eleventyConfig.on('eleventy.after', () => {
+    execSync(`npx pagefind --source _site --glob \"**/*.html\"`, { encoding: 'utf-8' })
+    })
 };

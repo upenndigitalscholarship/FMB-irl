@@ -1,17 +1,25 @@
----
-eleventyNavigation:
-  key: Inicio
-  order: 0
----
 <!DOCTYPE html>
 <html lang="es-co">
 <head>
 <title>FMB</title>
 <meta charset="utf-8" />
+<link href="/_pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/_pagefind/pagefind-ui.js" type="text/javascript"></script>
 </head>
 <body>
 
-<h1>HI!</h1>
-{{ collections.all | eleventyNavigation | eleventyNavigationToHtml | safe }}
+
+<div id="search"></div>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        new PagefindUI({ 
+            element: "#search",
+            translations: {
+                placeholder: "Buscar",
+                zero_results: "No puede encontrar [SEARCH_TERM]"
+            }
+        });
+    });
+</script>
 </body>
 </html>
