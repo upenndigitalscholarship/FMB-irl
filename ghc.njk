@@ -1,0 +1,43 @@
+---
+pagination:
+    data: collections.ghc
+    size: 1
+    alias: image
+permalink: "{{ image | slugify }}/"
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<link rel='stylesheet' 
+          type='text/css'
+          media='screen'
+          href='/assets/css/style.css'/>
+
+    <script src="/assets/js/openseadragon.min.js"></script>
+</head>
+<body>
+
+<div id="example-inline-configuration-for-image"
+         class="openseadragon">
+        <script type="text/javascript">
+            OpenSeadragon({
+                id:            "example-inline-configuration-for-image",
+                prefixUrl:     "/assets/images/",
+                tileSources:   {
+                    type: 'image',
+                    url:  '/{{ image }}'
+                }
+            });
+        </script>
+        <noscript>
+            <p>OpenSeadragon is not available unless JavaScript is enabled.</p>
+            <img src='{{ image }}'
+                 height='600'/>
+        </noscript>
+</div>
+
+
+</body>
+</html>

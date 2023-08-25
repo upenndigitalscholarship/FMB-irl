@@ -7,7 +7,7 @@ const mfcImages = fg.sync(['**/MFC/**', '!**/_site']);
 
 //Create collections so you can access the data in your templates
 module.exports = function(eleventyConfig) {
-
+  eleventyConfig.addPassthroughCopy("assets");
   //Create collection of gallery images
   eleventyConfig.addCollection('ghc', function(collection) {
     return ghcImages;
