@@ -1,6 +1,6 @@
 ---
 pagination:
-    data: collections.ghc
+    data: collections.mfc
     size: 1
     alias: image
     eleventyNavigation:
@@ -23,12 +23,12 @@ permalink: "{{ image | slugify }}/"
 
 <div class="container">
     <ul class="breadcrumb">
-        <li><a href="/{{ image | getGHCPrevious | slugify }}">Atras</a></li>
+        <li><a href="/{{ image | getMFCPrevious | slugify }}">Atras</a></li>
         {% set parts = image.split('_') %}
         {% for item in parts %}
             <li>{{ item }}</li>
         {% endfor %}
-        <li><a href="/{{ image | getGHCNext | slugify }}">Siguiente</a></li>
+        <li><a href="/{{ image | getMFCNext | slugify }}">Siguiente</a></li>
 </ul> 
 
 

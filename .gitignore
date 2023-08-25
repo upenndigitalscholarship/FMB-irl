@@ -1,5 +1,7 @@
 _site/
 node_modules
+GHC/
+MFC/
 
 # Logs
 logs

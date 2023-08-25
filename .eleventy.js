@@ -1,31 +1,44 @@
 // Import fast-glob package
 const fg = require('fast-glob');
+const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
 
 // Run search for images in /gallery and /sponsors
 const ghcImages = fg.sync(['**/GHC/**', '!**/_site']);
 const mfcImages = fg.sync(['**/MFC/**', '!**/_site']);
 
-const createImageObject = (path) => {
-  // Given a path, split on _, return an object with the path
-  //GHC/GHC_B43/EAP1477_GHC_B43_Doc16_IMG_090.jpg
-  let image = {
-    src: path,
-    name: path.split('_')[1],
-  }
-  console.log(image)
-  return Object.create(image);
-}
 //Create collections so you can access the data in your templates
 module.exports = function(eleventyConfig) {
+  eleventyConfig.addPlugin(eleventyNavigationPlugin);
   eleventyConfig.addPassthroughCopy("assets");
-  eleventyConfig.addPassthroughCopy("GHC");
+  //eleventyConfig.addPassthroughCopy("GHC");
 
-  //Create collection of gallery images
+  
   eleventyConfig.addCollection('ghc', function(collection) {
-    return ghcImages.map((x) => createImageObject(x));
+    return ghcImages;
+  });
+  // TODO is this a better way to do it?
+  // eleventyConfig.addCollection("ghc", function(collectionApi) {
+  //   return collectionApi.getFilteredByGlob('GHC/**');
+  // });
+  eleventyConfig.addNunjucksFilter("getGHCNext", function(value) {
+    let index = ghcImages.indexOf(value);
+    return ghcImages[index+1] ? ghcImages[index+1] : ghcImages[0];
+  });
+  eleventyConfig.addNunjucksFilter("getGHCPrevious", function(value) {
+    let index = ghcImages.indexOf(value);
+    return ghcImages[index-1] ? ghcImages[index-1] : ghcImages[0];
   });
 
-  //Create collection of sponsor logos
+  eleventyConfig.addNunjucksFilter("getMFCNext", function(value) {
+    let index = mfcImages.indexOf(value);
+    return mfcImages[index+1] ? mfcImages[index+1] : mfcImages[0];
+  });
+  eleventyConfig.addNunjucksFilter("getMFCPrevious", function(value) {
+    let index = mfcImages.indexOf(value);
+    return mfcImages[index-1] ? mfcImages[index-1] : mfcImages[0];
+  });
+  
+  
   eleventyConfig.addCollection('mfc', function(collection) {
     return mfcImages;
   });
