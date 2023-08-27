@@ -15,26 +15,26 @@ permalink: "{{ image | slugify }}/"
         <link rel='stylesheet' 
           type='text/css'
           media='screen'
-          href='/assets/css/style.css'/>
+          href='/fmb/assets/css/style.css'/>
 
-        <script src="/assets/js/openseadragon.min.js"></script>
+        <script src="/fmb/assets/js/openseadragon.min.js"></script>
     </head>
     <body>
 
         <div class="container">
             <ul class="breadcrumb">
                 <li>
-                    <a href="/{{ image | getMFCPrevious | slugify }}">Atras</a>
+                    <a href="/fmb/{{ image | getMFCPrevious | slugify }}">Atras</a>
                 </li>
                 {% set parts = image.split('_') %}
                 {% for item in parts %}
                     <li>{{ item }}</li>
                 {% endfor %}
                 <li>
-                    <a href="/{{ image | getMFCNext | slugify }}">Siguiente</a>
+                    <a href="/fmb/{{ image | getMFCNext | slugify }}">Siguiente</a>
                 </li>
             </ul>
-            <a href="/">Inicio</a>
+            <a href="/fmb/">Inicio</a>
             <div id="fmb-image"
          class="openseadragon">
                 <script type="text/javascript">
@@ -43,13 +43,13 @@ permalink: "{{ image | slugify }}/"
                         prefixUrl: "/assets/images/",
                         tileSources: {
                             type: 'image',
-                            url: '/{{ image }}'
+                            url: '/fmb/{{ image }}'
                         }
                     });
                 </script>
                 <noscript>
                     <p>OpenSeadragon is not available unless JavaScript is enabled.</p>
-                    <img src='{{ image }}'
+                    <img src='/fmb{{ image }}'
                  height='600'/>
                 </noscript>
             </div>
