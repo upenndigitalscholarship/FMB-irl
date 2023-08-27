@@ -41,3 +41,20 @@ possible with env variables: https://www.11ty.dev/docs/environment-vars/
 https://openwrt.org/docs/guide-user/services/webserver/uhttpd
 
 fun next step, rather than build from folder of files, build from HF dataset
+
+Usage:
+
+1. Plug the router into a USB power source (5V-1A). Wait until the two yellow lights are on. The center light will not be on. The blue light on the USB drive will be on.
+2. Connect to the router's wifi network (SSID: FMB)
+3. Open a browser and navigate to http://192.168.2.1/fmb
+
+You can now search the files and view them on your device. I recommend turning your phone horizontally for the best experience.
+
+Uso:
+
+1. Conecte el enrutador a una fuente de alimentación USB (5V-1A). Espere hasta que las dos luces amarillas se enciendan. La luz central no se encenderá. La luz azul de la unidad USB estará encendida.
+2. Conéctese a la red wifi del enrutador (SSID: FMB)
+3. Abra un navegador y navegue hasta http://192.168.2.1/fmb
+[ciento noventa y dos punto ciento sesenta y ocho punto dos punto uno barra fmb]
+
+Ahora puede buscar los archivos y verlos en su dispositivo. Recomiendo girar su teléfono horizontalmente para obtener la mejor experiencia.
