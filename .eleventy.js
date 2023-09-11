@@ -1,6 +1,7 @@
 // Import fast-glob package
 const fg = require('fast-glob');
 const { execSync } = require('child_process')
+var parquet = require('parquetjs');
 
 // Run search for images in /gallery and /sponsors
 const ghcImages = fg.sync(['**/GHC/**', '!**/_site']);
