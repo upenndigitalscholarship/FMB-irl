@@ -1,4 +1,4 @@
-# How to create a tiny Web Server <img height="50px" src="https://www.therpf.com/forums/attachments/wheems-jpg.359859/">
+# How to create a tiny server <img height="50px" src="https://www.therpf.com/forums/attachments/wheems-jpg.359859/">
 
 __September 2023__
 
@@ -20,7 +20,7 @@ At the end of this tutorial we will have:
 Also, a computer with a USB port and an ethernet port.
 
 ## Firmware 
-Our mini smart router comes with firmware installed that allows it to function as a wifi router. We will replace that firmware with OpenWRT, a Linux distribution for embedded devices.
+Our mini smart router comes with firmware installed that allows it to function as a wifi router. We will replace that firmware with OpenWRT, a Linux distribution for embedded devices. The GL firmware is based on OpenWRT and [it is possible to keep it if you want](https://forum.gl-inet.com/t/web-server-in-gl-mt300n/1714/3). By installing OpenWRT, you will have full control of the operating system and you can rely on regularly updated open source documentation. 
 
 - The OpenWRT "[Table of Hardware](https://openwrt.org/toh/start)" has device specific installation instructions.
 - For this tutorial, we'll be using the [GL.iNet GL-MT300N V2](https://openwrt.org/toh/gl.inet/gl-mt300n_v2) page.
@@ -37,16 +37,64 @@ Our mini smart router comes with firmware installed that allows it to function a
 - You'll see a progress bar as OpenWRT is installed. When complete, the router will drop the wifi connection, don't panic! If the device doesn't automatically reboot, unplug it and plug it back in.
 - If you don't see the GL-MT300N-V2-xxx network, you can connect your computer to the router using the ethernet cable provided and go to 192.168.8.1 in your browser. You should now see the Luci interface that comes with OpenWRT.
 
+### Enable Wireless
+If you don't see your wifi router listed as an available wifi connection, you'll need to configure it in Luci. Go [here](http://192.168.8.1/cgi-bin/luci/admin/network/wireless). In the Wireless Overview section, click on the enable button next to SSID: OpenWRT. If you'd like to change the name of the network, click on edit, change the values under ESSID and then "Save and Apply".
+
+### Connect Router to Internet
+To update the OS and for other tasks, you router will need to be connected to the internet. To connect to another wifi signal, go to Network > Wireless and look for the wireless radio (radio0). Click on the "Scan" button and then "Join Network" next to the network you want to connect to. You'll need to enter the password for the network. Once you've joined the network, click on "Save and Apply".
+
+### Connect to Router via SSH
+To connect to your router via SSH, open your terminal and type: `ssh -v -oHostKeyAlgorithms=+ssh-rsa root@192.168.8.1` and enter the same password you used to log into the admin panel.
+
+To confirm that the router's internet connection is working, type `opkg update` in the terminal. If you get an error, try removing and re-adding the wireless connection as detailed in the previous section.
+
 ## USB Drive 
-connect to internet
-- format your sd card using ext4
-https://openwrt.org/docs/guide-user/storage/usb-drives-quickstart
+The GL router has a USB port that can used for storage. We first need to configure the device to find and mount the USB drive. The OpenWRT documentation on this step can be found [here](https://openwrt.org/docs/guide-user/storage/usb-drives#install_and_verify_usb_drivers.)
+- Using your computer, format the microSD card using the ext4 format.
+- Insert the microSD card into the USB adapter and then into the router's USB port.
+- Connect to the router via SSH.
+- Type `opkg update` to update the package list.
+- Type `opkg install kmod-usb-storage`.
+- Type `opkg install usbutils`.
+- You can now run `lsusb -t` and see a list of connected drives.
+For example:
+```
+root@GL-MT300N-V2:~# lsusb -t
+/:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=ohci-platform/1p, 12M
+/:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=ehci-platform/1p, 480M
+    |__ Port 1: Dev 2, If 0, Class=, Driver=usb-storage, 480M
+```
+The router can now see the connected drive.  The next step is to mount the drive. The OpenWRT documentation on this step can be found [here](https://openwrt.org/docs/guide-user/storage/usb-drives#automount_the_partition).
 
-`ssh -v -oHostKeyAlgorithms=+ssh-rsa root@192.168.8.1`
+- Run `opkg install block-mount`
+- Type `block detect | uci import fstab`
+- Enter `block info | grep "/dev/sd"` to see the name of the drive. For example:
+```
+/dev/sda1: UUID="1a3f57c4-5836-4158-a25e-9cd6c430e91a" LABEL="FMB" VERSION="1.0" TYPE="ext4"
+```
+- Next enter `uci set fstab.@mount[-1].enabled='1'`
+- Then `uci commit fstab` which will automatically mount the drive when the drive is booted.
+- Reboot your router. 
+- After reboot, connect over SSH and you should be able to see the drive in the file system. For example, I can now see a `/mnt/sda1` folder.
 
 
-## Web Server
-https://openwrt.org/docs/guide-user/services/webserver/http.uhttpd
+## [Web Server](https://openwrt.org/docs/guide-user/services/webserver/http.uhttpd)
 
+OpenWRT comes with a web server installed called uHTTPd. If you are familiar with Apache, this will feel very familiar. Files in the /www directory are available at 192.168.8.1. This is how the Luci admin panel is loaded in your browser. We can serve files from the USB drive by creating a symbolic link to the /www directory on the router.
+For example, if my site folder on the USB (sda1) is called `site`, I can create a symbolic link to it with the following command:
+```
+ln -s /mnt/sda1/site /www/site
+```
+The site can then be loaded at `192.168.8.1/site`
+
+
+
+vvv in progress vvv
+If you don't want to use the IP address to access your router, you can give it an alias. 
+In the `/etc/resolv.conf` file, add a line with the alias and your IP
+```
+digital-archive 192.168.8.1
+```
 
 This project was inspired by [LibraryBox](https://makezine.com/projects/librarybox/), which used a router for file sharing. 
+
