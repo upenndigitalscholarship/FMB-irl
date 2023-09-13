@@ -2,6 +2,7 @@ _site/
 node_modules
 GHC/
 MFC/
+venv/
 
 # Logs
 logs
