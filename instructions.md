@@ -43,6 +43,7 @@ If you don't see your wifi router listed as an available wifi connection, you'll
 ### Connect Router to Internet
 To update the OS and for other tasks, you router will need to be connected to the internet. To connect to another wifi signal, go to Network > Wireless and look for the wireless radio (radio0). Click on the "Scan" button and then "Join Network" next to the network you want to connect to. You'll need to enter the password for the network. Once you've joined the network, click on "Save and Apply".
 
+If you are able to connect to your usual wifi router but don't have a connection to the internet, there may be a conflict between your wifi router and the mango.  To fix this, try changing the address of the mango. Go to Network > Interfaces. Find lan and click on the edit button.  Change the IPv4 address to 192.168.2.1  Then reboot the router. 
 ### Connect to Router via SSH
 To connect to your router via SSH, open your terminal and type: `ssh -v -oHostKeyAlgorithms=+ssh-rsa root@192.168.8.1` and enter the same password you used to log into the admin panel.
 
