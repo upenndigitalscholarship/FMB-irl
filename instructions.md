@@ -48,7 +48,7 @@ If you are able to connect to your usual wifi router but don't have a connection
 To connect to your router via SSH, open your terminal and type: `ssh -v -oHostKeyAlgorithms=+ssh-rsa root@192.168.8.1` and enter the same password you used to log into the admin panel.
 
 To confirm that the router's internet connection is working, type `opkg update` in the terminal. If you get an error, try removing and re-adding the wireless connection as detailed in the previous section.
-
+> this can also help `opkg update && opkg install kmod-fs-ext4`
 ## USB Drive 
 The GL router has a USB port that can used for storage. We first need to configure the device to find and mount the USB drive. The OpenWRT documentation on this step can be found [here](https://openwrt.org/docs/guide-user/storage/usb-drives#install_and_verify_usb_drivers.)
 - Using your computer, format the microSD card using the ext4 format.
