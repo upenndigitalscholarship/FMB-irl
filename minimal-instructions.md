@@ -25,6 +25,6 @@ We will now use that password to connect to the router using SSH. Open your term
 
 Plug in your ext4 formatted usb drive (the blue light should turn on). Go to /mnt and find your drive. My drive appears as FMB, so I'll use that name. So the path to my USB drive is `/mnt/FMB`. 
 
-To share the drive's content, we create a symbolic link between the www folder and your drive's contents.  Change directories to /www: `cd /www` and create the link `ln -s /mnt/FMB ./fmb`
-You files on the USB are now available at http://192.168.8.1/fmb
+To share the drive's content, we create a symbolic link between the www folder and your drive's contents.  Change directories to /www: `cd /www` and create the link `ln -s /mnt/FMB /www/fmb`
+Your files on the USB are now available at http://192.168.8.1/fmb
 
