@@ -58,3 +58,13 @@ Uso:
 [ciento noventa y dos punto ciento sesenta y ocho punto dos punto uno barra fmb]
 
 Ahora puede buscar los archivos y verlos en su dispositivo. Recomiendo girar su teléfono horizontalmente para obtener la mejor experiencia.
+
+
+# Mar 7
+- Remove parquet code 
+- load BL metadata and text from json 
+- create collections 
+- add pagefind for text search
+- keep browse by box 
+- make page responsive for phones 
+- possible to make embedding visualization? search? 

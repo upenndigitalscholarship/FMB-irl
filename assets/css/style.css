@@ -9,13 +9,13 @@ body {
     font-family: Helvetica, Arial, FreeSans, san-serif;
     background-color: #121621;/*#0e182e;*/
 }
-#container {
+/* #container {
     margin:     0 auto;
     width:      800px;
     padding:    1.0em;
     background-color: #EEE;
 
-}
+} */
 div noscript{
     text-align:center;
 }
