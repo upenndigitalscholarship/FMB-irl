@@ -165,7 +165,7 @@ hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
  */
 .openseadragon
 {
-    width:      800px;
+    width:      100%;
     height:     800px;
     border:     1px solid black;
     color:      #333; /* text color for messages */

@@ -1,0 +1,72 @@
+---
+pagination:
+    data: data
+    size: 1
+    alias: item
+permalink: "{{ item.box_image | slugify }}/"
+---
+<!DOCTYPE html>
+<html lang="es-co">
+    <head>
+        <title>{{ item.box_image }}</title>
+        <meta charset="utf-8"/>
+        <link rel='stylesheet' 
+          type='text/css'
+          media='screen'
+          href='/fmb/assets/css/style.css'/>
+
+        <script src="/fmb/assets/js/openseadragon.min.js"></script>
+        <script src="/fmb/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+        <link href="/fmb/assets/css/bootstrap.min.css" rel="stylesheet">
+
+    </head>
+    <body>
+
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/fmb/">Inicio</a></li>
+                    <li class="breadcrumb-item">{{ item.mfc_ghc }}</li>
+                    <li class="breadcrumb-item">Caja {{ item.box }}</li>
+                    <li class="breadcrumb-item">Doc {{ item.doc }}</li>
+                    <li class="breadcrumb-item">{{ item.image_no }}</li>
+                </ol>
+            </nav>
+            <div class="btn-group p-3" role="group" aria-label="forward back buttons">
+                {% if item.previous %}
+                <a href="/fmb/{{ item.previous }}"><button type="button" class="btn btn-outline-dark">Atras</button></a>
+                {% endif %}
+                {% if item.next %}
+                <a href="/fmb/{{ item.next }}"><button type="button" class="btn btn-outline-dark">Siguiente</button></a> 
+                {% endif %}
+            </div>
+            
+            <div id="fmb-image"
+         class="openseadragon">
+                <script type="text/javascript">
+                    OpenSeadragon({
+                        id: "fmb-image",
+                        prefixUrl: "/fmb/assets/images/",
+                        tileSources: {
+                            type: 'image',
+                            url: '/fmb/{{ item.box_image }}'
+                        }
+                    });
+                </script>
+                <noscript>
+                    <p>OpenSeadragon is not available unless JavaScript is enabled.</p>
+                    <img src='/fmb/{{ item.box_image }}'
+                 height='600'/>
+                </noscript>
+            </div>
+            <div>
+                <div class="card">
+                    <div class="card-body">
+                        {{ item.text }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

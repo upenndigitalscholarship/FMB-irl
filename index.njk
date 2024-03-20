@@ -1,31 +1,184 @@
 <!DOCTYPE html>
 <html lang="es-co">
-<head>
-<title>FMB</title>
-<meta charset="utf-8" />
-<link href="/fmb/_pagefind/pagefind-ui.css" rel="stylesheet">
-<link href="/fmb/assets/css/bootstrap.min.css" rel="stylesheet">
-<script src="/fmb/_pagefind/pagefind-ui.js" type="text/javascript"></script>
-<script src="/fmb/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-</head>
-<body>
+    <head>
+        <title>Archivo Histórico del Juzgado del Circuito de Istmina</title>
+        <meta charset="utf-8"/>
+        <link href="/fmb/_pagefind/pagefind-ui.css" rel="stylesheet">
+        <link href="/fmb/assets/css/bootstrap.min.css" rel="stylesheet">
+        <script src="/fmb/_pagefind/pagefind-ui.js" type="text/javascript"></script>
+        <script src="/fmb/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    </head>
+    <body>
 
-<div class="container">
+        <div class="container" data-pagefind-ignore>
+            <div class="mt-3" id="search"></div>
+            <label for="collection">Elige una colección:</label>
 
-    <div id="search"></div>
+            <select name="collection" id="collection">
+                <option value="ghc">GHC</option>
+                <option value="mfc">MFC</option>
+            </select>
+            <label for="box">caja:</label>
 
-</div>
+            <select name="box" id="box">
+                <option value="b01">b01</option>
+                <option value="b02">b02</option>
+                <option value="b03">b03</option>
+                <option value="b04">b04</option>
+                <option value="b05">b05</option>
+                <option value="b06">b06</option>
+                <option value="b07">b07</option>
+                <option value="b08">b08</option>
+                <option value="b09">b09</option>
+                <option value="b10">b10</option>
+                <option value="b12">b12</option>
+                <option value="b13">b13</option>
+                <option value="b14">b14</option>
+                <option value="b16">b16</option>
+                <option value="b18">b18</option>
+                <option value="b21">b21</option>
+                <option value="b22">b22</option>
+                <option value="b24">b24</option>
+                <option value="b26">b26</option>
+                <option value="b33">b33</option>
+                <option value="b34">b34</option>
+                <option value="b35">b35</option>
+                <option value="b37">b37</option>
+                <option value="b38">b38</option>
+                <option value="b39">b39</option>
+                <option value="b40">b40</option>
+                <option value="b41">b41</option>
+                <option value="b42">b42</option>
+                <option value="b43">b43</option>
 
-<script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        new PagefindUI({ 
-            element: "#search",
-            translations: {
-                placeholder: "Buscar",
-                zero_results: "No puede encontrar [SEARCH_TERM]"
+            </select>
+            <label for="doc">documento:</label>
+
+            <select name="doc" id="doc">
+                <option value="doc01">doc01</option>
+                <option value="doc02">doc02</option>
+                <option value="doc03">doc03</option>
+                <option value="doc04">doc04</option>
+                <option value="doc05">doc05</option>
+                <option value="doc06">doc06</option>
+                <option value="doc07">doc07</option>
+                <option value="doc08">doc08</option>
+                <option value="doc09">doc09</option>
+                <option value="doc10">doc10</option>
+                <option value="doc11">doc11</option>
+                <option value="doc12">doc12</option>
+                <option value="doc13">doc13</option>
+                <option value="doc14">doc14</option>
+                <option value="doc15">doc15</option>
+                <option value="doc16">doc16</option>
+                <option value="doc17">doc17</option>
+                <option value="doc18">doc18</option>
+                <option value="doc19">doc19</option>
+                <option value="doc20">doc20</option>
+                <option value="doc21">doc21</option>
+                <option value="doc22">doc22</option>
+                <option value="doc23">doc23</option>
+                <option value="doc24">doc24</option>
+                <option value="doc25">doc25</option>
+                <option value="doc26">doc26</option>
+                <option value="doc27">doc27</option>
+                <option value="doc28">doc28</option>
+                <option value="doc29">doc29</option>
+                <option value="doc30">doc30</option>
+                <option value="doc31">doc31</option>
+                <option value="doc32">doc32</option>
+                <option value="doc33">doc33</option>
+                <option value="doc34">doc34</option>
+                <option value="doc35">doc35</option>
+                <option value="doc36">doc36</option>
+                <option value="doc37">doc37</option>
+                <option value="doc38">doc38</option>
+                <option value="doc39">doc39</option>
+                <option value="doc40">doc40</option>
+                <option value="doc41">doc41</option>
+                <option value="doc42">doc42</option>
+                <option value="doc43">doc43</option>
+                <option value="doc44">doc44</option>
+            </select>
+
+            <div id="results"></div>
+        </div>
+
+        <script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+                new PagefindUI({
+                    element: "#search",
+                    translations: {
+                        placeholder: "Buscar",
+                        zero_results: "No puede encontrar [SEARCH_TERM]"
+                    }
+                });
+            });
+
+            let data = []
+            async function loadData() {
+                const response = await fetch('/fmb/assets/data/pathData.json');
+                const d = await response.json();
+                data = d
             }
-        });
-    });
-</script>
-</body>
+            loadData();
+
+            let showValues = () => {
+                let collection = document
+                    .getElementById('collection')
+                    .value
+                let box = document
+                    .getElementById('box')
+                    .value
+                let doc = document
+                    .getElementById('doc')
+                    .value
+                // filter data by collection, box and doc
+                let filteredData = data.filter(d => d.collection === collection && d.box === box && d.doc === doc)
+                // sort filteredData ascending by number following 'img' in the "full" property
+                filteredData.sort((a, b) => {
+                    let aNum = parseInt(a.full.split('img')[1])
+                    let bNum = parseInt(b.full.split('img')[1])
+                    return aNum - bNum
+                })
+                // reverse filteredData
+                filteredData.reverse()
+
+                // show results
+                let results = document.getElementById('results')
+                results.innerHTML = ''
+                filteredData.forEach(d => {
+                    let div = document.createElement('div')
+                    // set div  style margin 10px
+                    div.style.margin = '10px'
+                    div.innerHTML = `<a style="color:black;" href="/fmb/${d
+                        .full}">${d
+                        .archive} ${d
+                        .collection} ${d
+                        .box} ${d
+                        .doc} ${d
+                        .image}</a>`
+                        results
+                        .appendChild(div)
+                })
+            }
+
+            document
+                .getElementById('collection')
+                .addEventListener('change', function () {
+                    showValues()
+                })
+            document
+                .getElementById('box')
+                .addEventListener('change', function () {
+                    showValues()
+                })
+            document
+                .getElementById('doc')
+                .addEventListener('change', function () {
+                    showValues()
+                })
+        </script>
+
+    </body>
 </html>
